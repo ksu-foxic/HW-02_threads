@@ -5,4 +5,8 @@
     <string name="description_post_menu">Пост меню</string>
     <string name="description_favorite">Лайков</string>
     <string name="description_send">Отправить</string>
+    <string name="remove">Удалить</string>
+    <string name="content">Контент</string>
+    <string name="empty_text">Пустой текст</string>
+    <string name="edit">редактировать</string>
 </resources>
