@@ -1,5 +1,7 @@
 package ru.netology.nmedia_practice.activity
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -53,6 +55,21 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onSend(post: Post) {
                     viewModel.send(post.id)
+                    val intent = Intent()
+                        .putExtra(Intent.EXTRA_TEXT, post.content)
+                        .setAction(Intent.ACTION_SEND)
+                        .setType("text/plain")
+
+                    try {
+                        startActivity(Intent.createChooser(intent, null))
+                    } catch (_: ActivityNotFoundException) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            R.string.apps_not_found,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
                 }
             }
         )
@@ -78,8 +95,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.cansel.setOnClickListener {
+            viewModel.canselEdit()
             binding.content.setText("")
             binding.editButton1.visibility = View.GONE
+            binding.content.clearFocus()
             AndroidUtils.hideKeyboard(binding.content)
         }
 

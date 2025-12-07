@@ -9,5 +9,6 @@
     <string name="empty_text">Text is blank!</string>
     <string name="edit">edit</string>
     <string name="view">view</string>
+    <string name="apps_not_found">Apps not found</string>
 
 </resources>
