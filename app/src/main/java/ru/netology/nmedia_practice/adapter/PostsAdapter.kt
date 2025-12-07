@@ -16,6 +16,7 @@ interface PostListener {
     fun onLike(post: Post)
     fun onSend(post: Post)
 }
+
 class PostsAdapter(
     private val listener: PostListener
 ) : ListAdapter<Post, PostViewHolder>(
@@ -31,6 +32,7 @@ class PostsAdapter(
         holder.bind(getItem(position))
     }
 }
+
 fun Long.formatCount(): String {
     return when {
         this < 1_000 -> "$this"
@@ -39,6 +41,7 @@ fun Long.formatCount(): String {
         else -> "${this / 1_000_000}.${(this % 1_000_000) / 100_000}M"
     }
 }
+
 class PostViewHolder(
     private val binding: CardPostBinding,
     private val listener: PostListener
@@ -49,13 +52,11 @@ class PostViewHolder(
             author.text = post.author
             published.text = post.published
             content.text = post.content
-            countLikes.text = post.countLikes.formatCount()
-            countView.text = post.countView.formatCount()
-            countSend.text = post.countSend.formatCount()
+            view.text = post.countView.formatCount()
+            send.text = post.countSend.formatCount()
+            like.isChecked = post.likedByMe
+            like.text = post.countLikes.formatCount()
 
-            like.setImageResource(
-                if (post.likedByMe) R.drawable.baseline_favorite_24 else R.drawable.outline_favorite_24
-            )
             like.setOnClickListener {
                 listener.onLike(post)
             }
@@ -71,10 +72,12 @@ class PostViewHolder(
                                 listener.onRemove(post)
                                 true
                             }
+
                             R.id.edit -> {
                                 listener.onEdit(post)
                                 true
                             }
+
                             else -> false
                         }
                     }
@@ -83,6 +86,7 @@ class PostViewHolder(
         }
     }
 }
+
 object PostDiffUtils : DiffUtil.ItemCallback<Post>() {
     override fun areItemsTheSame(oldItem: Post, newItem: Post) = oldItem.id == newItem.id
     override fun areContentsTheSame(oldItem: Post, newItem: Post) = oldItem == newItem

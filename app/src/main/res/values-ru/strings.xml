@@ -8,5 +8,6 @@
     <string name="remove">Удалить</string>
     <string name="content">Контент</string>
     <string name="empty_text">Пустой текст</string>
-    <string name="edit">редактировать</string>
+    <string name="edit">Редактировать</string>
+    <string name="view">Просмотры</string>
 </resources>

@@ -8,5 +8,6 @@
     <string name="content">Content</string>
     <string name="empty_text">Text is blank!</string>
     <string name="edit">edit</string>
+    <string name="view">view</string>
 
 </resources>
