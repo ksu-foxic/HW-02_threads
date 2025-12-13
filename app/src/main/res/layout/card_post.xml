@@ -67,6 +67,45 @@
         app:layout_constraintTop_toBottomOf="@id/barrier"
         tools:text="@sample/posts.json/data/content" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/videoContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintTop_toBottomOf="@id/content"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/video"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:src="@drawable/video"
+            app:layout_constraintStart_toStartOf="parent"
+
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@id/content" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/play"
+            style="?attr/materialIconButtonOutlinedStyle"
+            app:layout_constraintTop_toTopOf="@id/video"
+            app:layout_constraintStart_toStartOf="@id/video"
+            app:layout_constraintEnd_toEndOf="@id/video"
+            app:layout_constraintBottom_toBottomOf="@id/video"
+            app:tint="@android:color/black"
+            android:contentDescription="@string/play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@id/video"
+            app:srcCompat="@drawable/ic_play_24" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/like"
         style="@style/Widget.AppTheme.LikeButton"
@@ -75,7 +114,7 @@
         android:checkable="true"
         android:contentDescription="@string/description_favorite"
         android:padding="@dimen/common_spacing"
-        android:text="10"
+        android:text=""
         app:icon="@drawable/ic_like_selector"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrier2" />
@@ -88,7 +127,7 @@
         android:layout_marginStart="12dp"
         android:contentDescription="@string/description_send"
         android:padding="@dimen/common_spacing"
-        android:text="200"
+        android:text=""
         app:icon="@drawable/ic_send_24"
         app:layout_constraintStart_toEndOf="@id/like"
         app:layout_constraintTop_toTopOf="@id/barrier2" />
@@ -101,7 +140,7 @@
         android:layout_marginEnd="0dp"
         android:contentDescription="@string/view"
         android:padding="@dimen/common_spacing"
-        android:text="300"
+        android:text=""
         app:icon="@drawable/ic_visibility_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/barrier2" />
@@ -111,6 +150,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="content" />
+        app:constraint_referenced_ids="videoContainer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

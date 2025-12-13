@@ -10,5 +10,7 @@
     <string name="edit">edit</string>
     <string name="view">view</string>
     <string name="apps_not_found">Apps not found</string>
+    <string name="add_post">add_post</string>
+    <string name="play">Play</string>
 
 </resources>

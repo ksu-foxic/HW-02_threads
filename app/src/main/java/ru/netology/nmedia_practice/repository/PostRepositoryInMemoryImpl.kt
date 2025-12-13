@@ -15,7 +15,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likedByMe = false,
             send = false,
             countSend = 100,
-            countView = 500_000
+            countView = 500_000,
+            videoUrl = "https://rutube.ru/video/6550a91e7e523f9503bed47e4c46d0cb"
 
         ),
         Post(

@@ -11,4 +11,6 @@
     <string name="edit">Редактировать</string>
     <string name="view">Просмотры</string>
     <string name="apps_not_found">Приложения не найдены</string>
+    <string name="add_post">Добавить пост</string>
+    <string name="play">Пуск</string>
 </resources>

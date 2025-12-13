@@ -1,11 +1,10 @@
 package ru.netology.nmedia_practice.activity
-
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,7 +15,6 @@ import ru.netology.nmedia_practice.adapter.PostListener
 import ru.netology.nmedia_practice.adapter.PostsAdapter
 import ru.netology.nmedia_practice.databinding.ActivityMainBinding
 import ru.netology.nmedia_practice.dto.Post
-import ru.netology.nmedia_practice.utils.AndroidUtils
 import ru.netology.nmedia_practice.viewmodel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -38,11 +36,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         val viewModel: PostViewModel by viewModels()
+
+        val newPostLauncher = registerForActivityResult(NewPostActivityContract()) {result ->
+            result ?: return@registerForActivityResult
+            val (id, content) = result
+            viewModel.save(id, content)
+        }
+
         val adapter = PostsAdapter(
 
             object : PostListener {
                 override fun onEdit(post: Post) {
                     viewModel.edit(post)
+                    newPostLauncher.launch(post)
                 }
 
                 override fun onRemove(post: Post) {
@@ -69,57 +75,31 @@ class MainActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-
                 }
-            }
-        )
-
-        adapter.registerAdapterDataObserver(
-            object : RecyclerView.AdapterDataObserver() {
-                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                    if (positionStart == 0) {
-                        binding.list.smoothScrollToPosition(0)
-                    }
-                }
-            }
-        )
-
-        viewModel.edited.observe(this) { post ->
-            if (post.id != 0L) {
-
-                binding.editButton1.visibility = View.VISIBLE
-                binding.content.setText(post.content)
-                AndroidUtils.showKeyboard(binding.content)
-
-            }
-        }
-
-        binding.cansel.setOnClickListener {
-            viewModel.canselEdit()
-            binding.content.setText("")
-            binding.editButton1.visibility = View.GONE
-            binding.content.clearFocus()
-            AndroidUtils.hideKeyboard(binding.content)
-        }
-
-        binding.save.setOnClickListener {
-            with(binding.content) {
-                val currentText = text.toString()
-                if (currentText.isBlank()) {
-                    Toast.makeText(context, R.string.empty_text, Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-                viewModel.save(currentText)
-                setText("")
-                clearFocus()
-                AndroidUtils.hideKeyboard(this)
-            }
-            binding.editButton1.visibility = View.GONE
-        }
+            })
 
         binding.list.adapter = adapter
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
         }
+
+        binding.save.setOnClickListener {
+            newPostLauncher.launch(null)
+        }
     }
 }
+//        viewModel.edited.observe(this) { post ->
+//            if (post.id != 0L) {
+//
+//                binding.editButton1.visibility = View.VISIBLE
+//                binding.content.setText(post.content)
+//                AndroidUtils.showKeyboard(binding.content)
+//            }
+//        }
+//        binding.cansel.setOnClickListener {
+//            viewModel.canselEdit()
+//            binding.content.setText("")
+//            binding.editButton1.visibility = View.GONE
+//            binding.content.clearFocus()
+//            AndroidUtils.hideKeyboard(binding.content)
+//        }

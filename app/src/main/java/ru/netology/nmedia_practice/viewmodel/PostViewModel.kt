@@ -13,7 +13,6 @@ private val empty = Post(
     content = "",
     published = "",
 )
-
 class PostViewModel : ViewModel() {
     private val repository: PostRepository = PostRepositoryInMemoryImpl()
     val data = repository.getAll()
@@ -30,16 +29,25 @@ class PostViewModel : ViewModel() {
         repository.removeById(id)
     }
 
-    fun save(content: String) {
-        edited.value?.let { post ->
-            val trim: String = content.trim()
-            if (trim != post.content) {
-                repository.save(post.copy(content = trim))
-            }
-        }
-        edited.value = empty
-    }
+    fun save(id: Long, content: String) {
+        val text = content.trim()
+        if (text.isBlank()) return
 
+        repository.save(
+            if (id == 0L) {
+                Post(
+                    id = 0,
+                    author = "me",
+                    published = "now",
+                    content = text
+                )
+            } else {
+                edited.value!!.copy(content = text)
+            }
+        )
+        edited.value = empty
+
+    }
     fun edit(post: Post) {
         edited.value = post
     }

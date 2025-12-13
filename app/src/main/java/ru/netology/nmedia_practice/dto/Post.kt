@@ -8,5 +8,6 @@ data class Post (
     val countLikes: Long = 0,
     val send: Boolean = false,
     val countSend: Long = 0,
-    val countView: Long = 0
+    val countView: Long = 0,
+    val videoUrl: String? = null
 )

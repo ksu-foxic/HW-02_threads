@@ -1,7 +1,11 @@
 package ru.netology.nmedia_practice.adapter
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.launch
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -16,7 +20,6 @@ interface PostListener {
     fun onLike(post: Post)
     fun onSend(post: Post)
 }
-
 class PostsAdapter(
     private val listener: PostListener
 ) : ListAdapter<Post, PostViewHolder>(
@@ -32,7 +35,6 @@ class PostsAdapter(
         holder.bind(getItem(position))
     }
 }
-
 fun Long.formatCount(): String {
     return when {
         this < 1_000 -> "$this"
@@ -41,7 +43,6 @@ fun Long.formatCount(): String {
         else -> "${this / 1_000_000}.${(this % 1_000_000) / 100_000}M"
     }
 }
-
 class PostViewHolder(
     private val binding: CardPostBinding,
     private val listener: PostListener
@@ -49,6 +50,7 @@ class PostViewHolder(
     fun bind(post: Post) {
         binding.apply {
             avatar.setImageResource(R.drawable.netology)
+            video.setImageResource(R.drawable.video)
             author.text = post.author
             published.text = post.published
             content.text = post.content
@@ -56,6 +58,21 @@ class PostViewHolder(
             send.text = post.countSend.formatCount()
             like.isChecked = post.likedByMe
             like.text = post.countLikes.formatCount()
+
+            if (!post.videoUrl.isNullOrBlank()) {
+                videoContainer.visibility = View.VISIBLE
+
+                videoContainer.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.videoUrl))
+                    it.context.startActivity(intent)
+                }
+            } else {
+                videoContainer.visibility = View.GONE
+            }
+            play.setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.videoUrl))
+                it.context.startActivity(intent)
+            }
 
             like.setOnClickListener {
                 listener.onLike(post)
@@ -86,7 +103,6 @@ class PostViewHolder(
         }
     }
 }
-
 object PostDiffUtils : DiffUtil.ItemCallback<Post>() {
     override fun areItemsTheSame(oldItem: Post, newItem: Post) = oldItem.id == newItem.id
     override fun areContentsTheSame(oldItem: Post, newItem: Post) = oldItem == newItem
