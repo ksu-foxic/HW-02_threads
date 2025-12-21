@@ -15,11 +15,13 @@ import ru.netology.nmedia_practice.databinding.CardPostBinding
 import ru.netology.nmedia_practice.dto.Post
 
 interface PostListener {
+    fun onPostClick(post: Post)
     fun onEdit(post: Post)
     fun onRemove(post: Post)
     fun onLike(post: Post)
     fun onSend(post: Post)
 }
+
 class PostsAdapter(
     private val listener: PostListener
 ) : ListAdapter<Post, PostViewHolder>(
@@ -35,6 +37,7 @@ class PostsAdapter(
         holder.bind(getItem(position))
     }
 }
+
 fun Long.formatCount(): String {
     return when {
         this < 1_000 -> "$this"
@@ -43,6 +46,7 @@ fun Long.formatCount(): String {
         else -> "${this / 1_000_000}.${(this % 1_000_000) / 100_000}M"
     }
 }
+
 class PostViewHolder(
     private val binding: CardPostBinding,
     private val listener: PostListener
@@ -101,8 +105,15 @@ class PostViewHolder(
                 }.show()
             }
         }
+        binding.root.setOnClickListener {
+            listener.onPostClick(post)
+        }
+        binding.content.setOnClickListener {
+            listener.onPostClick(post)
+        }
     }
 }
+
 object PostDiffUtils : DiffUtil.ItemCallback<Post>() {
     override fun areItemsTheSame(oldItem: Post, newItem: Post) = oldItem.id == newItem.id
     override fun areContentsTheSame(oldItem: Post, newItem: Post) = oldItem == newItem

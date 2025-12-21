@@ -13,4 +13,6 @@
     <string name="apps_not_found">Приложения не найдены</string>
     <string name="add_post">Добавить пост</string>
     <string name="play">Пуск</string>
+    <string name="save">Сохранить</string>
+    <string name="cansel">Отмена</string>
 </resources>

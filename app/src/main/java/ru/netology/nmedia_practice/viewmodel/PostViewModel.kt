@@ -12,6 +12,8 @@ private val empty = Post(
     author = "",
     content = "",
     published = "",
+    countLikes = 0,
+    likedByMe = false
 )
 class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: PostRepository = PostRepositoryInFileImpl(application)
@@ -20,33 +22,20 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun likeById(id: Long) {
         repository.likeById(id)
     }
-
     fun send(id: Long) {
         repository.send(id)
     }
-
     fun removeById(id: Long) {
         repository.removeById(id)
     }
-
-    fun save(id: Long, content: String) {
-        val text = content.trim()
-        if (text.isBlank()) return
-
-        repository.save(
-            if (id == 0L) {
-                Post(
-                    id = 0,
-                    author = "me",
-                    published = "now",
-                    content = text
-                )
-            } else {
-                edited.value!!.copy(content = text)
+    fun save(content: String) {
+        edited.value?.let {
+            val text = content.trim()
+            if (it.content != text) {
+                repository.save(it.copy(content = text))
             }
-        )
+        }
         edited.value = empty
-
     }
     fun edit(post: Post) {
         edited.value = post
@@ -55,5 +44,4 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun canselEdit() {
         edited.value = empty
     }
-
 }

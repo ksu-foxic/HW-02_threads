@@ -64,6 +64,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/common_spacing"
         android:autoLink="web"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         app:layout_constraintTop_toBottomOf="@id/barrier"
         tools:text="@sample/posts.json/data/content" />
 
@@ -71,12 +74,12 @@
         android:id="@+id/videoContainer"
         android:layout_width="wrap_content"
         android:layout_height="250dp"
+        android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
         android:visibility="gone"
-        android:background="?attr/selectableItemBackground"
-        app:layout_constraintTop_toBottomOf="@id/content"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/content">
 
         <ImageView
             android:id="@+id/video"
@@ -84,20 +87,20 @@
             android:layout_height="250dp"
             android:src="@drawable/video"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/play"
             style="?attr/materialIconButtonOutlinedStyle"
-            app:layout_constraintTop_toTopOf="@id/video"
-            app:layout_constraintStart_toStartOf="@id/video"
-            app:layout_constraintEnd_toEndOf="@id/video"
-            app:layout_constraintBottom_toBottomOf="@id/video"
-            app:tint="@android:color/black"
-            android:contentDescription="@string/play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_play_24" />
+            android:contentDescription="@string/play"
+            app:layout_constraintBottom_toBottomOf="@id/video"
+            app:layout_constraintEnd_toEndOf="@id/video"
+            app:layout_constraintStart_toStartOf="@id/video"
+            app:layout_constraintTop_toTopOf="@id/video"
+            app:srcCompat="@drawable/ic_play_24"
+            app:tint="@android:color/black" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
