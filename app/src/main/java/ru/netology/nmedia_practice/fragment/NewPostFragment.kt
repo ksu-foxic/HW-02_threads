@@ -30,7 +30,6 @@ class NewPostFragment : Fragment() {
 
             if (!binding.edit.text.isNullOrBlank()) {
                 viewModel.save(binding.edit.text.toString())
-//                findNavController().navigateUp()
                 findNavController().navigate(
                     R.id.feedFragment,
                     null,

@@ -42,7 +42,8 @@ class FeedFragment : Fragment() {
                 }
 
                 override fun onSend(post: Post) {
-//                    viewModel.send(post.id)
+                    viewModel.send(post.id)
+
                     val intent = Intent().apply {
                         action = Intent.ACTION_SEND
                         putExtra(Intent.EXTRA_TEXT, post.content)
@@ -52,7 +53,6 @@ class FeedFragment : Fragment() {
                     val shareIntent = Intent.createChooser(intent, "Share post")
                     startActivity(shareIntent)
                 }
-                //Дописала
                 override fun onPostClick(post: Post) {
                     findNavController().navigate(
                         R.id.action_feedFragment_to_editPostFragment, Bundle().apply {

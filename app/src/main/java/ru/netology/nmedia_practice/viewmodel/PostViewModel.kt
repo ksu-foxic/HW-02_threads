@@ -3,9 +3,10 @@ package ru.netology.nmedia_practice.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import ru.netology.nmedia_practice.db.AppDb
 import ru.netology.nmedia_practice.dto.Post
 import ru.netology.nmedia_practice.repository.PostRepository
-import ru.netology.nmedia_practice.repository.PostRepositoryInFileImpl
+import ru.netology.nmedia_practice.repository.PostRepositorySQLiteImpl
 
 private val empty = Post(
     id = 0,
@@ -16,7 +17,7 @@ private val empty = Post(
     likedByMe = false
 )
 class PostViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: PostRepository = PostRepositoryInFileImpl(application)
+    private val repository: PostRepository = PostRepositorySQLiteImpl(AppDb.getInstance(application).postDao)
     val data = repository.getAll()
     val edited = MutableLiveData(empty)
     fun likeById(id: Long) {
@@ -39,9 +40,5 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
     fun edit(post: Post) {
         edited.value = post
-    }
-
-    fun canselEdit() {
-        edited.value = empty
     }
 }

@@ -5,7 +5,6 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.launch
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -21,7 +20,6 @@ interface PostListener {
     fun onLike(post: Post)
     fun onSend(post: Post)
 }
-
 class PostsAdapter(
     private val listener: PostListener
 ) : ListAdapter<Post, PostViewHolder>(
@@ -37,8 +35,7 @@ class PostsAdapter(
         holder.bind(getItem(position))
     }
 }
-
-fun Long.formatCount(): String {
+fun Int.formatCount(): String {
     return when {
         this < 1_000 -> "$this"
         this < 10_000 -> "${this / 1000}.${(this % 1000) / 100}K"
@@ -113,7 +110,6 @@ class PostViewHolder(
         }
     }
 }
-
 object PostDiffUtils : DiffUtil.ItemCallback<Post>() {
     override fun areItemsTheSame(oldItem: Post, newItem: Post) = oldItem.id == newItem.id
     override fun areContentsTheSame(oldItem: Post, newItem: Post) = oldItem == newItem

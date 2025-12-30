@@ -50,6 +50,8 @@ class PostFragment : Fragment() {
                 }
 
                 override fun onSend(post: Post) {
+                    viewModel.send(post.id)
+
                     val intent = Intent(Intent.ACTION_SEND).apply {
                         putExtra(Intent.EXTRA_TEXT, post.content)
                         type = "text/plain"
