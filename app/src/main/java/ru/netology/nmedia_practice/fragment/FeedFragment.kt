@@ -23,7 +23,8 @@ class FeedFragment : Fragment() {
     ): View? {
         val binding = FragmentFeedBinding.inflate(layoutInflater, container, false)
 
-        val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
+        val viewModel: PostViewModel by viewModels()
+        //ownerProducer = ::requireParentFragment
 
         val adapter = PostsAdapter(
 

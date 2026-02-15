@@ -15,4 +15,11 @@
     <string name="play">Пуск</string>
     <string name="save">Сохранить</string>
     <string name="cansel">Отмена</string>
+    <string name="google_play_unavailable">Гугл плей недоступен</string>
+    <string name="channel_remote_name">имя удаленного канала</string>
+    <string name="channel_remote_description">описание удаленного канала</string>
+    <string name="notification_user_liked">Пользователь %1$s лайкнул %2$s пост </string>
+    <string name="notification_user_newPost">Пользователь %1$s опубликовал новый пост: %2$s</string>
+
+    опубликовал новый пост:
 </resources>

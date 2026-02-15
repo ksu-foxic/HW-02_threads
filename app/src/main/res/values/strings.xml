@@ -14,5 +14,10 @@
     <string name="play">Play</string>
     <string name="save">Save</string>
     <string name="cansel">cansel</string>
+    <string name="google_play_unavailable">google_play_unavailable</string>
+    <string name="channel_remote_name">channel_remote_name</string>
+    <string name="channel_remote_description">channel_remote_description</string>
+    <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
+    <string name="notification_user_newPost">User %1$s published new post: %2$s</string>
 
 </resources>

@@ -29,5 +29,3 @@
         app:srcCompat="@drawable/ic_add_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-

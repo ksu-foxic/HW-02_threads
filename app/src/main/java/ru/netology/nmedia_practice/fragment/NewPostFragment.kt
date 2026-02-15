@@ -26,7 +26,7 @@ class NewPostFragment : Fragment() {
 
         arguments?.textArg?.let(binding.edit::setText)
 
-            binding.ok.setOnClickListener {
+        binding.ok.setOnClickListener {
 
             if (!binding.edit.text.isNullOrBlank()) {
                 viewModel.save(binding.edit.text.toString())

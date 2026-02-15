@@ -17,7 +17,8 @@ private val empty = Post(
     likedByMe = false
 )
 class PostViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: PostRepository = PostRepositoryRoomImpl(AppDb.getInstance(application).postDao)
+    private val repository: PostRepository = PostRepositoryRoomImpl(AppDb.getInstance(application).postDao())
+
     val data = repository.getAll()
     val edited = MutableLiveData(empty)
     fun likeById(id: Long) {

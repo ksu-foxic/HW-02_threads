@@ -13,6 +13,7 @@ import ru.netology.nmedia_practice.R
 import ru.netology.nmedia_practice.databinding.ActivityAppBinding
 import ru.netology.nmedia_practice.fragment.NewPostFragment.Companion.textArg
 
+
 class AppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
