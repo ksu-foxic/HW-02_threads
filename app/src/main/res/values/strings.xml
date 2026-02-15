@@ -4,5 +4,20 @@
     <string name="description_post_menu">Post menu</string>
     <string name="description_favorite">Favorite</string>
     <string name="description_send">Send</string>
+    <string name="remove">Remove</string>
+    <string name="content">Content</string>
+    <string name="empty_text">Text is blank!</string>
+    <string name="edit">edit</string>
+    <string name="view">view</string>
+    <string name="apps_not_found">Apps not found</string>
+    <string name="add_post">add_post</string>
+    <string name="play">Play</string>
+    <string name="save">Save</string>
+    <string name="cansel">cansel</string>
+    <string name="google_play_unavailable">google_play_unavailable</string>
+    <string name="channel_remote_name">channel_remote_name</string>
+    <string name="channel_remote_description">channel_remote_description</string>
+    <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
+    <string name="notification_user_newPost">User %1$s published new post: %2$s</string>
 
 </resources>

@@ -5,4 +5,21 @@
     <string name="description_post_menu">Пост меню</string>
     <string name="description_favorite">Лайков</string>
     <string name="description_send">Отправить</string>
+    <string name="remove">Удалить</string>
+    <string name="content">Контент</string>
+    <string name="empty_text">Пустой текст</string>
+    <string name="edit">Редактировать</string>
+    <string name="view">Просмотры</string>
+    <string name="apps_not_found">Приложения не найдены</string>
+    <string name="add_post">Добавить пост</string>
+    <string name="play">Пуск</string>
+    <string name="save">Сохранить</string>
+    <string name="cansel">Отмена</string>
+    <string name="google_play_unavailable">Гугл плей недоступен</string>
+    <string name="channel_remote_name">имя удаленного канала</string>
+    <string name="channel_remote_description">описание удаленного канала</string>
+    <string name="notification_user_liked">Пользователь %1$s лайкнул %2$s пост </string>
+    <string name="notification_user_newPost">Пользователь %1$s опубликовал новый пост: %2$s</string>
+
+    опубликовал новый пост:
 </resources>
