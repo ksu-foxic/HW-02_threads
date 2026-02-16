@@ -20,6 +20,8 @@
     <string name="channel_remote_description">описание удаленного канала</string>
     <string name="notification_user_liked">Пользователь %1$s лайкнул %2$s пост </string>
     <string name="notification_user_newPost">Пользователь %1$s опубликовал новый пост: %2$s</string>
+    <string name="no_post">No Post</string>
+    <string name="Network_error">Ошибка сети</string>
+    <string name="retry">Повтор</string>
 
-    опубликовал новый пост:
 </resources>

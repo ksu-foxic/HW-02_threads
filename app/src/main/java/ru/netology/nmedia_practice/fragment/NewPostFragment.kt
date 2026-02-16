@@ -13,6 +13,7 @@ import ru.netology.nmedia_practice.utils.StringArg
 import ru.netology.nmedia_practice.viewmodel.PostViewModel
 import kotlin.getValue
 import ru.netology.nmedia_practice.R
+import ru.netology.nmedia_practice.utils.AndroidUtils
 
 class NewPostFragment : Fragment() {
 
@@ -30,17 +31,33 @@ class NewPostFragment : Fragment() {
 
             if (!binding.edit.text.isNullOrBlank()) {
                 viewModel.save(binding.edit.text.toString())
-                findNavController().navigate(
-                    R.id.feedFragment,
-                    null,
-                    NavOptions.Builder()
-                        .setPopUpTo(R.id.feedFragment, true)
-                        .build()
-                )
+                AndroidUtils.hideKeyboard(requireView())
+//                findNavController().navigate(
+//                    R.id.feedFragment,
+//                    null,
+//                    NavOptions.Builder()
+//                        .setPopUpTo(R.id.feedFragment, true)
+//                        .build()
+//                )
+
+                // поправь
             }
         }
+        viewModel.postCreated.observe(viewLifecycleOwner) {
+            viewModel.load()
+            findNavController().navigate(
+                R.id.feedFragment,
+                null,
+                NavOptions.Builder()
+                    .setPopUpTo(R.id.feedFragment, true)
+                    .build()
+            )
+        }
+
+        // до сюда
         return binding.root
     }
+
     companion object {
         var Bundle.textArg: String? by StringArg
     }
