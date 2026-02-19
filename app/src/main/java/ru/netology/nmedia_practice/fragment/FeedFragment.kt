@@ -2,6 +2,7 @@ package ru.netology.nmedia_practice.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +15,8 @@ import ru.netology.nmedia_practice.adapter.PostListener
 import ru.netology.nmedia_practice.adapter.PostsAdapter
 import ru.netology.nmedia_practice.databinding.FragmentFeedBinding
 import ru.netology.nmedia_practice.dto.Post
+import ru.netology.nmedia_practice.fragment.NewPostFragment.Companion.textArg
 import ru.netology.nmedia_practice.viewmodel.PostViewModel
-
 class FeedFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,14 +26,21 @@ class FeedFragment : Fragment() {
         val binding = FragmentFeedBinding.inflate(layoutInflater, container, false)
 
         val viewModel: PostViewModel by viewModels()
-        //ownerProducer = ::requireParentFragment
+
+        binding.swiperefresh.setOnRefreshListener { viewModel.load() }
 
         val adapter = PostsAdapter(
 
             object : PostListener {
                 override fun onEdit(post: Post) {
+
                     viewModel.edit(post)
-                    findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
+                    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                    }, 100)
+                    findNavController().navigate(R.id.action_feedFragment_to_newPostFragment,
+                        Bundle().apply {
+                            textArg = post.content
+                        })
                 }
 
                 override fun onRemove(post: Post) {
@@ -66,14 +74,12 @@ class FeedFragment : Fragment() {
 
         binding.list.adapter = adapter
 
-//        val posts = viewModel.data
-//        adapter.submitList(posts)
-
         viewModel.data.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.posts)
             binding.progress.isVisible = state.loading
             binding.errorGroup.isVisible = state.error
             binding.empty.isVisible = state.empty
+            binding.swiperefresh.isRefreshing = false
         }
 
         binding.retry.setOnClickListener {

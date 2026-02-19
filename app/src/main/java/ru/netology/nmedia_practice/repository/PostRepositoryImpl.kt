@@ -1,11 +1,13 @@
 package ru.netology.nmedia_practice.repository
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okio.IOException
 import ru.netology.nmedia_practice.dto.Post
 import java.util.concurrent.TimeUnit
 
@@ -35,8 +37,30 @@ class PostRepositoryImpl: PostRepository {
         return gson.fromJson(jsonResponse, postType)
     }
 
-    override fun likeById(id: Long): Post {
-        TODO("Not yet implemented")
+    override fun likeById(id: Long) {
+        val request = Request.Builder()
+            .post("".toRequestBody())
+            .url("$BASE_URL/api/slow/posts/$id/likes")
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) {
+                throw IOException("Failed to like: ${response.code}")
+            }
+        }
+    }
+
+    override fun unlikeById(id: Long) {
+        val request = Request.Builder()
+            .delete()
+            .url("$BASE_URL/api/slow/posts/$id/likes")
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) {
+                throw IOException("Failed to unlike: ${response.code}")
+            }
+        }
     }
 
     override fun send(id: Long) {
@@ -63,15 +87,9 @@ class PostRepositoryImpl: PostRepository {
         val response = call.execute()
 
         val jsonResponse = response.body.string()
+        Log.d("PostRepository", "Server response: $jsonResponse")
 
         return gson.fromJson(jsonResponse, Post::class.java)
+        Log.d("PostRepository", "Parsed savedPost.id = ${post.id}")
     }
-
-//    override fun save(post: Post) = dao.save(PostEntity.fromDto(post))
-//
-//    override fun likeById(id: Long) = dao.likeById(id)
-//
-//    override fun send(id: Long) = dao.send(id)
-//
-//    override fun removeById(id: Long) = dao.removeById(id)
 }

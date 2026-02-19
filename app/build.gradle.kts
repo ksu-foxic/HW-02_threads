@@ -7,9 +7,10 @@ plugins {
 
 android {
     namespace = "ru.netology.nmedia_practice"
-    compileSdk {
-        version = release(36)
-    }
+//    compileSdk {
+//        version = release(36)
+//    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "ru.netology.nmedia_practice"
@@ -69,4 +70,5 @@ dependencies {
     implementation(libs.play.services)
     implementation(libs.okhttp)
     coreLibraryDesugaring(libs.desugaring)
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 }

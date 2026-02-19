@@ -1,6 +1,7 @@
 package ru.netology.nmedia_practice.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,32 +33,25 @@ class NewPostFragment : Fragment() {
             if (!binding.edit.text.isNullOrBlank()) {
                 viewModel.save(binding.edit.text.toString())
                 AndroidUtils.hideKeyboard(requireView())
-//                findNavController().navigate(
-//                    R.id.feedFragment,
-//                    null,
-//                    NavOptions.Builder()
-//                        .setPopUpTo(R.id.feedFragment, true)
-//                        .build()
-//                )
-
-                // поправь
+                viewModel.load()
+                findNavController().navigate(
+                    R.id.feedFragment,
+                    null,
+                    NavOptions.Builder()
+                        .setPopUpTo(R.id.feedFragment, true)
+                        .build()
+                )
             }
         }
+
         viewModel.postCreated.observe(viewLifecycleOwner) {
             viewModel.load()
-            findNavController().navigate(
-                R.id.feedFragment,
-                null,
-                NavOptions.Builder()
-                    .setPopUpTo(R.id.feedFragment, true)
-                    .build()
-            )
+            findNavController().navigateUp()
         }
 
-        // до сюда
+
         return binding.root
     }
-
     companion object {
         var Bundle.textArg: String? by StringArg
     }
