@@ -15,6 +15,7 @@ import ru.netology.nmedia_practice.adapter.PostListener
 import ru.netology.nmedia_practice.dto.Post
 import kotlin.getValue
 import ru.netology.nmedia_practice.R
+import ru.netology.nmedia_practice.fragment.NewPostFragment.Companion.textArg
 
 class PostFragment : Fragment() {
 
@@ -36,8 +37,15 @@ class PostFragment : Fragment() {
 
                 override fun onEdit(post: Post) {
                     viewModel.edit(post)
-                    findNavController().navigate(R.id.action_editPostFragment_to_newPostFragment
-                    )
+//                    findNavController().navigate(R.id.action_editPostFragment_to_newPostFragment
+//                    )
+                    //добавила 4 строки
+                    findNavController().navigate(R.id.action_editPostFragment_to_newPostFragment,
+                        Bundle().apply {
+                            textArg = post.content
+//                            putLong("postId", post.id)
+                        })
+
                 }
 
                 override fun onRemove(post: Post) {

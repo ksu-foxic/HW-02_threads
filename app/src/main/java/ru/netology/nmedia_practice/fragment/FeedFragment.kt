@@ -2,7 +2,6 @@ package ru.netology.nmedia_practice.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +26,7 @@ class FeedFragment : Fragment() {
 
         val viewModel: PostViewModel by viewModels()
 
-        binding.swiperefresh.setOnRefreshListener { viewModel.load() }
+        binding.swiperefresh.setOnRefreshListener { viewModel.loadPosts() }
 
         val adapter = PostsAdapter(
 
@@ -35,8 +34,9 @@ class FeedFragment : Fragment() {
                 override fun onEdit(post: Post) {
 
                     viewModel.edit(post)
-                    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-                    }, 100)
+
+//                    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+//                    }, 100)
                     findNavController().navigate(R.id.action_feedFragment_to_newPostFragment,
                         Bundle().apply {
                             textArg = post.content
@@ -83,7 +83,7 @@ class FeedFragment : Fragment() {
         }
 
         binding.retry.setOnClickListener {
-            viewModel.load()
+            viewModel.loadPosts()
         }
 
         binding.fab.setOnClickListener {

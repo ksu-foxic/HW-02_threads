@@ -1,7 +1,6 @@
 package ru.netology.nmedia_practice.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,27 +25,24 @@ class NewPostFragment : Fragment() {
         val binding = FragmentNewPostBinding.inflate(layoutInflater, container, false)
         val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
-        arguments?.textArg?.let(binding.edit::setText)
+        // Получаем текст из аргументов (если есть - например, из "Поделиться")
+        val sharedText = arguments?.textArg
+
+        // Получаем текст из edited (если это редактирование)
+        val editText = viewModel.edited.value?.content
+
+        // Устанавливаем приоритет: сначала shared, потом edit, потом пусто
+        when {
+            !sharedText.isNullOrBlank() -> binding.edit.setText(sharedText)
+            !editText.isNullOrBlank() -> binding.edit.setText(editText)
+        }
 
         binding.ok.setOnClickListener {
-
             if (!binding.edit.text.isNullOrBlank()) {
                 viewModel.save(binding.edit.text.toString())
                 AndroidUtils.hideKeyboard(requireView())
-                viewModel.load()
-                findNavController().navigate(
-                    R.id.feedFragment,
-                    null,
-                    NavOptions.Builder()
-                        .setPopUpTo(R.id.feedFragment, true)
-                        .build()
-                )
+                findNavController().navigateUp()
             }
-        }
-
-        viewModel.postCreated.observe(viewLifecycleOwner) {
-            viewModel.load()
-            findNavController().navigateUp()
         }
 
 
@@ -55,4 +51,32 @@ class NewPostFragment : Fragment() {
     companion object {
         var Bundle.textArg: String? by StringArg
     }
+
 }
+//        arguments?.textArg?.let(binding.edit::setText)
+//
+//        binding.ok.setOnClickListener {
+//
+//            if (!binding.edit.text.isNullOrBlank()) {
+//                viewModel.save(binding.edit.text.toString())
+//                AndroidUtils.hideKeyboard(requireView())
+//                viewModel.loadPosts()
+//                findNavController().navigate(
+//                    R.id.feedFragment,
+//                    null,
+//                    NavOptions.Builder()
+//                        .setPopUpTo(R.id.feedFragment, true)
+//                        .build()
+//                )
+//            }
+//        }
+//
+//        viewModel.postCreated.observe(viewLifecycleOwner) {
+//            viewModel.loadPosts()
+//            findNavController().navigateUp()
+//        }
+//        return binding.root
+//    }
+//    companion object {
+//        var Bundle.textArg: String? by StringArg
+//    }

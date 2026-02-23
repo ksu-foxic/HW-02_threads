@@ -53,12 +53,12 @@ class PostViewHolder(
             avatar.setImageResource(R.drawable.netology)
             video.setImageResource(R.drawable.video)
             author.text = post.author
-            published.text = post.published
+            published.text = post.published.toString()
             content.text = post.content
             view.text = post.countView.formatCount()
             send.text = post.countSend.formatCount()
             like.isChecked = post.likedByMe
-            like.text = post.countLikes.formatCount()
+            like.text = post.likes.formatCount()
 
             if (!post.videoUrl.isNullOrBlank()) {
                 videoContainer.visibility = View.VISIBLE
