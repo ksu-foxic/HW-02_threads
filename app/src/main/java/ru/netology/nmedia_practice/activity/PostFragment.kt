@@ -1,21 +1,21 @@
-package ru.netology.nmedia_practice.fragment
+package ru.netology.nmedia_practice.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import ru.netology.nmedia_practice.databinding.FragmentPostBinding
-import ru.netology.nmedia_practice.adapter.PostsAdapter
-import android.content.Intent
-import ru.netology.nmedia_practice.viewmodel.PostViewModel
-import ru.netology.nmedia_practice.adapter.PostListener
-import ru.netology.nmedia_practice.dto.Post
-import kotlin.getValue
 import ru.netology.nmedia_practice.R
-import ru.netology.nmedia_practice.fragment.NewPostFragment.Companion.textArg
+import ru.netology.nmedia_practice.activity.NewPostFragment.Companion.textArg
+import ru.netology.nmedia_practice.adapter.PostListener
+import ru.netology.nmedia_practice.adapter.PostsAdapter
+import ru.netology.nmedia_practice.databinding.FragmentPostBinding
+import ru.netology.nmedia_practice.dto.Post
+import ru.netology.nmedia_practice.viewmodel.PostViewModel
 
 class PostFragment : Fragment() {
 
@@ -36,16 +36,13 @@ class PostFragment : Fragment() {
                 }
 
                 override fun onEdit(post: Post) {
+
                     viewModel.edit(post)
-//                    findNavController().navigate(R.id.action_editPostFragment_to_newPostFragment
-//                    )
-                    //добавила 4 строки
-                    findNavController().navigate(R.id.action_editPostFragment_to_newPostFragment,
+                    findNavController().navigate(
+                        R.id.action_PostFragment_to_newPostFragment,
                         Bundle().apply {
                             textArg = post.content
-//                            putLong("postId", post.id)
                         })
-
                 }
 
                 override fun onRemove(post: Post) {
@@ -59,7 +56,6 @@ class PostFragment : Fragment() {
 
                 override fun onSend(post: Post) {
                     viewModel.send(post.id)
-
                     val intent = Intent(Intent.ACTION_SEND).apply {
                         putExtra(Intent.EXTRA_TEXT, post.content)
                         type = "text/plain"
@@ -68,11 +64,10 @@ class PostFragment : Fragment() {
                 }
             }
         )
-
         binding.list.adapter = adapter
 
-        viewModel.data.observe(viewLifecycleOwner) {feedmodel ->
-            adapter.submitList(feedmodel.posts.filter{it.id == postId})
+        viewModel.data.observe(viewLifecycleOwner) { feedmodel ->
+            adapter.submitList(feedmodel.posts.filter { it.id == postId })
         }
 
         return binding.root

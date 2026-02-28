@@ -13,29 +13,15 @@ import okhttp3.Response
 import okio.IOException
 import ru.netology.nmedia_practice.dto.Post
 import java.util.concurrent.TimeUnit
-
 class PostRepositoryImpl : PostRepository {
     private val client = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
         .build()
     private val gson = Gson()
     private val postType = object : TypeToken<List<Post>>() {}.type
-
     private companion object {
         const val BASE_URL = "http://10.0.2.2:9999"
         val jsonType = "application/json".toMediaType()
-    }
-
-    // не используем
-    override fun getAll(): List<Post> {
-        val request = Request.Builder()
-            .url("$BASE_URL/api/slow/posts")
-            .build()
-
-        val call = client.newCall(request)
-        val response = call.execute()
-        val jsonResponse = response.body.string()
-        return gson.fromJson(jsonResponse, postType)
     }
 
     override fun getAllAsync(callback: PostRepository.GetCallBack<List<Post>>) {
@@ -54,25 +40,10 @@ class PostRepositoryImpl : PostRepository {
                         callback.onError(e)
                     }
                 }
-
                 override fun onFailure(call: Call, e: IOException) {
                     callback.onError(e)
                 }
             })
-    }
-
-    // не используем
-    override fun likeById(id: Long) {
-        val request = Request.Builder()
-            .post("".toRequestBody())
-            .url("$BASE_URL/api/slow/posts/$id/likes")
-            .build()
-
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) {
-                throw IOException("Failed to like: ${response.code}")
-            }
-        }
     }
 
     override fun likeByIdAsync(id: Long, callback: PostRepository.UnitCallBack) {
@@ -99,20 +70,6 @@ class PostRepositoryImpl : PostRepository {
     }
 
 
-    // не используем
-    override fun unlikeById(id: Long) {
-        val request = Request.Builder()
-            .delete()
-            .url("$BASE_URL/api/slow/posts/$id/likes")
-            .build()
-
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) {
-                throw IOException("Failed to unlike: ${response.code}")
-            }
-        }
-    }
-
     override fun unlikeByIdAsync(id: Long, callback: PostRepository.UnitCallBack) {
         val request = Request.Builder()
             .delete()
@@ -137,16 +94,6 @@ class PostRepositoryImpl : PostRepository {
 
     override fun send(id: Long) {
         TODO("Not yet implemented")
-    }
-    // не используем
-    override fun removeById(id: Long) {
-        val request = Request.Builder()
-            .delete()
-            .url("$BASE_URL/api/slow/posts/$id")
-            .build()
-
-        val call = client.newCall(request)
-        call.execute()
     }
 
     override fun removeByIdAsync(id: Long, callback: PostRepository.UnitCallBack) {
@@ -176,19 +123,6 @@ class PostRepositoryImpl : PostRepository {
                 }
             })
     }
-//не используем
-    override fun save(post: Post): Post {
-        val request = Request.Builder()
-            .post(gson.toJson(post).toRequestBody(jsonType))
-            .url("$BASE_URL/api/slow/posts")
-            .build()
-
-        val call = client.newCall(request)
-        val response = call.execute()
-
-        val jsonResponse = response.body.string()
-        return gson.fromJson(jsonResponse, Post::class.java)
-    }
 
     override fun saveAsync(post: Post, callback: PostRepository.GetCallBack<Post>) {
         val request = Request.Builder()
@@ -202,11 +136,13 @@ class PostRepositoryImpl : PostRepository {
                     try{
                         val jsonResponse = response?.body?.string() ?: throw RuntimeException("text is null")
                         Log.d("PostRepository", "Response: $jsonResponse")
-                        val saverPost = gson.fromJson(jsonResponse, Post::class.java)
-                        callback.onSuccess(saverPost)
+                        val savePost = gson.fromJson(jsonResponse, Post::class.java)
+                        callback.onSuccess(savePost)
                     } catch (e: Exception) {
                         Log.e("PostRepository", "Error parsing response", e)
                         callback.onError(e)
+                    } finally {
+                        response.close() // Закрываем response
                     }
                 }
                 override fun onFailure(call: Call, e: IOException) {
@@ -216,3 +152,73 @@ class PostRepositoryImpl : PostRepository {
             })
     }
 }
+
+
+// не используем
+//    override fun getAll(): List<Post> {
+//        val request = Request.Builder()
+//            .url("$BASE_URL/api/slow/posts")
+//            .build()
+//
+//        val call = client.newCall(request)
+//        val response = call.execute()
+//        val jsonResponse = response.body.string()
+//        return gson.fromJson(jsonResponse, postType)
+//    }
+
+
+// не используем
+//    override fun likeById(id: Long) {
+//        val request = Request.Builder()
+//            .post("".toRequestBody())
+//            .url("$BASE_URL/api/slow/posts/$id/likes")
+//            .build()
+//
+//        client.newCall(request).execute().use { response ->
+//            if (!response.isSuccessful) {
+//                throw IOException("Failed to like: ${response.code}")
+//            }
+//        }
+//    }
+
+
+// не используем
+//    override fun unlikeById(id: Long) {
+//        val request = Request.Builder()
+//            .delete()
+//            .url("$BASE_URL/api/slow/posts/$id/likes")
+//            .build()
+//
+//        client.newCall(request).execute().use { response ->
+//            if (!response.isSuccessful) {
+//                throw IOException("Failed to unlike: ${response.code}")
+//            }
+//        }
+//    }
+
+// не используем
+//    override fun removeById(id: Long) {
+//        val request = Request.Builder()
+//            .delete()
+//            .url("$BASE_URL/api/slow/posts/$id")
+//            .build()
+//
+//        val call = client.newCall(request)
+//        call.execute()
+//    }
+
+//не используем
+//    override fun save(post: Post): Post {
+//        val request = Request.Builder()
+//            .post(gson.toJson(post).toRequestBody(jsonType))
+//            .url("$BASE_URL/api/slow/posts")
+//            .build()
+//
+//        val call = client.newCall(request)
+//        val response = call.execute()
+//
+//        val jsonResponse = response.body.string()
+//        return gson.fromJson(jsonResponse, Post::class.java)
+//    }
+
+

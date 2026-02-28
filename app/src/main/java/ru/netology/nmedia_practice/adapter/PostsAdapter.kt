@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia_practice.R
 import ru.netology.nmedia_practice.databinding.CardPostBinding
 import ru.netology.nmedia_practice.dto.Post
-
 interface PostListener {
     fun onPostClick(post: Post)
     fun onEdit(post: Post)
@@ -90,12 +89,10 @@ class PostViewHolder(
                                 listener.onRemove(post)
                                 true
                             }
-
                             R.id.edit -> {
                                 listener.onEdit(post)
                                 true
                             }
-
                             else -> false
                         }
                     }

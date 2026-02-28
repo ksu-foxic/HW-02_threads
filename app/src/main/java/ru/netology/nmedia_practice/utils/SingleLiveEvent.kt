@@ -3,7 +3,6 @@ package ru.netology.nmedia.util
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-
 class SingleLiveEvent<T> : MutableLiveData<T>() {
     // FIXME: упрощённый вариант, пока не прошли Atomic'и
     private var pending = false

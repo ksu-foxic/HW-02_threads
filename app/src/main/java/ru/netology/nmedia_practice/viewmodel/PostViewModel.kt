@@ -29,7 +29,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val data: LiveData<FeedModel>
         get() = _data
     val edited = MutableLiveData(empty)
-    private val _error = SingleLiveEvent<String>()
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit>
         get() = _postCreated
@@ -65,7 +64,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
             override fun onError(e: Exception) {
                 _data.postValue(_data.value?.copy(posts = oldPosts))
-                _error.postValue("Не удалось удалить пост: ${e.message}")
+                _data.postValue(FeedModel(error = true))
             }
         })
     }
@@ -89,18 +88,20 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             repository.unlikeByIdAsync(id, object : PostRepository.UnitCallBack {
                 override fun onSuccess() {
                 }
+
                 override fun onError(e: Exception) {
                     _data.postValue(_data.value?.copy(posts = currentPosts))
-                    _error.postValue("Не удалось снять лайк. Проверьте соединение.")
+                    _data.postValue(FeedModel(error = true))
                 }
 
             })
         } else repository.likeByIdAsync(id, object : PostRepository.UnitCallBack {
             override fun onSuccess() {
             }
+
             override fun onError(e: Exception) {
                 _data.postValue(_data.value?.copy(posts = currentPosts))
-                _error.postValue("Не удалось поставить лайк. Проверьте соединение.")
+                _data.postValue(FeedModel(error = true))
             }
         })
     }
@@ -109,43 +110,40 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         repository.send(id)
     }
 
-    fun save(content: String) {
-        val post = edited.value ?: empty  // хотя edited.value никогда не null, но для безопасности
+    fun save() {
+        edited.value?.let {
+            repository.saveAsync(
+                it,
+                object : PostRepository.GetCallBack<Post> {
+                    override fun onSuccess(result: Post) {
+                        _postCreated.postValue(Unit) // или _postCreated.postValue(Unit)
+                        loadPosts()  // перезагружаем после сохранения
+                    }
 
-        val text = content.trim().takeUnless { it.isEmpty() }
-            ?: return _error.postValue("Пустой текст не сохраняется")
-
-        val postToSave = post.copy(content = text)
-
-        repository.saveAsync(postToSave, object : PostRepository.GetCallBack<Post> {
-            override fun onSuccess(result: Post) {
-                Log.d("PostViewModel", "Post saved with id: ${result.id}")
-                val currentPosts = _data.value?.posts.orEmpty()
-                val updatedPosts = if (post.id == 0L) {
-                    // Новый пост - добавляем в начало
-                    listOf(result) + currentPosts
-                } else {
-                    // Редактирование - заменяем существующий
-                    currentPosts.map { if (it.id == result.id) result else it }
-                }
-
-                _data.postValue(_data.value?.copy(posts = updatedPosts))
-                _postCreated.postValue(Unit)
-                edited.postValue(empty)  // Сбрасываем на empty
-            }
-
-            override fun onError(e: Exception) {
-                Log.e("PostViewModel", "Save error", e)
-                _error.postValue("Ошибка сохранения: ${e.message}")
-            }
-        })
+                    override fun onError(e: Exception) {
+                        _data.postValue(FeedModel(error = true))
+                    }
+                })
+        }
+        edited.value = empty
     }
 
     fun edit(post: Post) {
         edited.value = post
     }
-}
 
+    fun clear() {
+        edited.value = empty
+    }
+
+    fun changeContent(content: String) {
+        val text = content.trim()
+        if (edited.value?.content == text) {
+            return
+        }
+        edited.value = edited.value?.copy(content = text)
+    }
+}
 
 //    fun save(content: String) {
 //

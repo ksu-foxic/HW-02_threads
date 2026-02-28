@@ -11,9 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
 import ru.netology.nmedia_practice.R
 import ru.netology.nmedia_practice.databinding.ActivityAppBinding
-import ru.netology.nmedia_practice.fragment.NewPostFragment.Companion.textArg
-
-
+import ru.netology.nmedia_practice.activity.NewPostFragment.Companion.textArg
 class AppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +19,7 @@ class AppActivity : AppCompatActivity() {
 
         val binding = ActivityAppBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

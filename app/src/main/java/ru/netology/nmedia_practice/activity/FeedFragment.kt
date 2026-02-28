@@ -1,7 +1,8 @@
-package ru.netology.nmedia_practice.fragment
+package ru.netology.nmedia_practice.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +15,9 @@ import ru.netology.nmedia_practice.adapter.PostListener
 import ru.netology.nmedia_practice.adapter.PostsAdapter
 import ru.netology.nmedia_practice.databinding.FragmentFeedBinding
 import ru.netology.nmedia_practice.dto.Post
-import ru.netology.nmedia_practice.fragment.NewPostFragment.Companion.textArg
+import ru.netology.nmedia_practice.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia_practice.viewmodel.PostViewModel
+
 class FeedFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,7 +26,8 @@ class FeedFragment : Fragment() {
     ): View? {
         val binding = FragmentFeedBinding.inflate(layoutInflater, container, false)
 
-        val viewModel: PostViewModel by viewModels()
+//        val viewModel: PostViewModel by viewModels()
+        val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
         binding.swiperefresh.setOnRefreshListener { viewModel.loadPosts() }
 
@@ -32,12 +35,9 @@ class FeedFragment : Fragment() {
 
             object : PostListener {
                 override fun onEdit(post: Post) {
-
                     viewModel.edit(post)
-
-//                    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-//                    }, 100)
-                    findNavController().navigate(R.id.action_feedFragment_to_newPostFragment,
+                    findNavController().navigate(
+                        R.id.action_feedFragment_to_newPostFragment,
                         Bundle().apply {
                             textArg = post.content
                         })
@@ -63,9 +63,10 @@ class FeedFragment : Fragment() {
                     val shareIntent = Intent.createChooser(intent, "Share post")
                     startActivity(shareIntent)
                 }
+
                 override fun onPostClick(post: Post) {
                     findNavController().navigate(
-                        R.id.action_feedFragment_to_editPostFragment, Bundle().apply {
+                        R.id.action_feedFragment_to_PostFragment, Bundle().apply {
                             putLong("postId", post.id)
                         }
                     )
