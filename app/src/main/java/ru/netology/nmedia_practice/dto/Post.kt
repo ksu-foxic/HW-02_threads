@@ -10,5 +10,6 @@ data class Post (
     val countSend: Int = 0,
     val countView: Int = 0,
     val authorAvatar: String? = null,
-    val videoUrl: String? = null
+    val videoUrl: String? = null,
+    val attachment: Attachment? = null
 )

@@ -7,9 +7,6 @@ plugins {
 
 android {
     namespace = "ru.netology.nmedia_practice"
-//    compileSdk {
-//        version = release(36)
-//    }
     compileSdk = 36
 
     defaultConfig {
@@ -30,7 +27,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            )
             manifestPlaceholders["usesCleartextTraffic"] = false
         }
         debug {
@@ -70,5 +68,6 @@ dependencies {
     implementation(libs.play.services)
     implementation(libs.okhttp)
     coreLibraryDesugaring(libs.desugaring)
+    implementation("com.github.bumptech.glide:glide:4.14.2")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 }

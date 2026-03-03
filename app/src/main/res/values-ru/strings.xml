@@ -23,5 +23,6 @@
     <string name="no_post">No Post</string>
     <string name="Network_error">Ошибка сети</string>
     <string name="retry">Повтор</string>
+    <string name="image">image</string>
 
 </resources>

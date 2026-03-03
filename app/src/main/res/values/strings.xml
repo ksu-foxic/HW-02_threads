@@ -22,5 +22,6 @@
     <string name="no_post">No Post</string>
     <string name="Network_error">Network error</string>
     <string name="retry">retry</string>
+    <string name="image">image</string>
 
 </resources>

@@ -68,7 +68,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             }
         })
     }
-
     fun likeById(id: Long) {
 
         val currentPosts = _data.value?.posts.orEmpty()

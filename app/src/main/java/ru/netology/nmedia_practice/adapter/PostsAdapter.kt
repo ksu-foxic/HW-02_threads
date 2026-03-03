@@ -9,6 +9,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.netology.nmedia_practice.R
 import ru.netology.nmedia_practice.databinding.CardPostBinding
 import ru.netology.nmedia_practice.dto.Post
@@ -49,7 +50,15 @@ class PostViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         binding.apply {
-            avatar.setImageResource(R.drawable.netology)
+//            avatar.setImageResource(R.drawable.netology)
+            Glide.with(itemView.context)
+                .load("http://10.0.2.2:9999/avatars/${post.authorAvatar}")
+                .placeholder(R.drawable.outline_broken_image_24)
+                .error(R.drawable.ic_error_24)
+                .circleCrop()
+                .timeout(10_000)
+                .into(avatar)
+
             video.setImageResource(R.drawable.video)
             author.text = post.author
             published.text = post.published.toString()
@@ -69,6 +78,19 @@ class PostViewHolder(
             } else {
                 videoContainer.visibility = View.GONE
             }
+
+            if (post.attachment != null) {
+                attachment.visibility = View.VISIBLE
+                Glide.with(itemView.context)
+                    .load("http://10.0.2.2:9999/images/${post.attachment.url}")  // теперь .url доступно
+                    .placeholder(R.drawable.outline_broken_image_24)
+                    .error(R.drawable.ic_error_24)
+                    .timeout(10_000)
+                    .into(attachment)
+            } else {
+                attachment.visibility = View.GONE
+            }
+
             play.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.videoUrl))
                 it.context.startActivity(intent)

@@ -28,7 +28,7 @@ class NewPostFragment : Fragment() {
         val binding = FragmentNewPostBinding.inflate(layoutInflater, container, false)
         val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
-              arguments?.textArg.let(binding.edit::setText)
+        arguments?.textArg.let(binding.edit::setText)
 
         binding.ok.setOnClickListener {
             val text = binding.edit.text.toString()
