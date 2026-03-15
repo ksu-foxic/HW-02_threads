@@ -45,7 +45,7 @@ class PostEntity (
             countView = countView,
             authorAvatar = authorAvatar,
             videoUrl = videoUrl,
-            attachment = attachment  // передаем объект Attachment, а не отдельные поля
+            attachment = attachment
         )
     }
     companion object {

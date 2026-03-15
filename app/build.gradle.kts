@@ -21,6 +21,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     buildTypes {
@@ -30,9 +31,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
             manifestPlaceholders["usesCleartextTraffic"] = false
+            buildConfigField("String", "BASE_URL", "\"https://netomedia.ru\"")
         }
         debug {
             manifestPlaceholders["usesCleartextTraffic"] = true
+            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:9999\"")
         }
     }
     compileOptions {
@@ -67,6 +70,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata)
     implementation(libs.play.services)
     implementation(libs.okhttp)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
     coreLibraryDesugaring(libs.desugaring)
     implementation("com.github.bumptech.glide:glide:4.14.2")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")

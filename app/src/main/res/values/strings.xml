@@ -21,6 +21,7 @@
     <string name="notification_user_newPost">User %1$s published new post: %2$s</string>
     <string name="no_post">No Post</string>
     <string name="Network_error">Network error</string>
+    <string name="server_mistake" translatable="false">Sorry, there\'s been a mistake</string>
     <string name="retry">retry</string>
     <string name="image">image</string>
 

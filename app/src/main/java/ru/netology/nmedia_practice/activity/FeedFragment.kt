@@ -81,6 +81,7 @@ class FeedFragment : Fragment() {
             binding.errorGroup.isVisible = state.error
             binding.empty.isVisible = state.empty
             binding.swiperefresh.isRefreshing = false
+            binding.errorServer.isVisible = state.errorServer
         }
 
         binding.retry.setOnClickListener {
